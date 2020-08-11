@@ -1,9 +1,7 @@
 package com.vtb.java.spring.mvc.lesson6.homework.controllers;
 
 import com.vtb.java.spring.mvc.lesson6.homework.models.Client;
-import com.vtb.java.spring.mvc.lesson6.homework.models.Product;
 import com.vtb.java.spring.mvc.lesson6.homework.services.ClientService;
-import com.vtb.java.spring.mvc.lesson6.homework.services.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

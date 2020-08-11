@@ -18,10 +18,6 @@ public class Launcher {
         webAppContext.setContextPath("/app");
         webAppContext.setWar(location.toExternalForm());
 
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ClientProductConfig.class);
-        HibernateSessionFactory hsf = context.getBean("hsf", HibernateSessionFactory.class);
-        PrepareDataApp.prepareData(hsf);
-
         server.setHandler(webAppContext);
         server.start();
         server.join();
