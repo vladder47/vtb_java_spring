@@ -1,6 +1,5 @@
 BEGIN;
 
-DROP TABLE IF EXISTS books CASCADE;
 CREATE TABLE books
 (
     id           BIGSERIAL PRIMARY KEY,
@@ -10,6 +9,44 @@ CREATE TABLE books
     price        NUMERIC(8, 2),
     publish_year INTEGER
 );
+
+CREATE TABLE users
+(
+    id       BIGSERIAL PRIMARY KEY,
+    username VARCHAR(30) NOT NULL,
+    password VARCHAR(80) NOT NULL,
+    email    VARCHAR(50) UNIQUE
+);
+
+create table roles
+(
+    id   SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE users_roles
+(
+    user_id BIGINT NOT NULL REFERENCES users (id),
+    role_id INT    NOT NULL REFERENCES roles (id),
+    PRIMARY KEY (user_id, role_id)
+);
+
+CREATE TABLE orders
+(
+    id      BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL REFERENCES users (id),
+    price   INTEGER
+);
+
+CREATE TABLE orders_items
+(
+    id       BIGSERIAL PRIMARY KEY,
+    order_id BIGINT        NOT NULL REFERENCES orders (id),
+    book_id  BIGINT        NOT NULL REFERENCES books (id),
+    count    BIGINT        NOT NULL,
+    price    DECIMAL(8, 2) NOT NULL
+);
+
 INSERT INTO books (title, description, genre, price, publish_year)
 VALUES ('Harry Potter 1', 'Description 1', 'FANTASY', 300.0, 2000),
        ('Harry Potter 2', 'Description 2', 'FANTASY', 400.0, 2001),
@@ -31,5 +68,17 @@ VALUES ('Harry Potter 1', 'Description 1', 'FANTASY', 300.0, 2000),
        ('Dracula 1', 'Description 18', 'THRILLER', 1000.0, 1990),
        ('Dracula 2', 'Description 19', 'THRILLER', 1200.0, 2000),
        ('Dracula 3', 'Description 20', 'THRILLER', 1400.0, 2005);
+
+INSERT INTO users (username, password, email)
+VALUES ('user', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user@gmail.com'),
+       ('admin', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'admin@gmail.com');
+
+INSERT INTO roles (name)
+VALUES ('ROLE_USER'),
+       ('ROLE_ADMIN');
+
+INSERT INTO users_roles (user_id, role_id)
+VALUES (1, 1),
+       (2, 2);
 
 COMMIT;
