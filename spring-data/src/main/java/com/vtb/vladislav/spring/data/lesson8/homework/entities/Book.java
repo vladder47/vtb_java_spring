@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Collection;
 
 @Entity
 @Table(name = "books")
@@ -31,4 +32,20 @@ public class Book {
 
     @Column(name = "publish_year")
     private Integer publishYear;
+
+    @OneToMany(mappedBy = "book")
+    private Collection<OrderItem> orderItems;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return id.equals(book.id) &&
+                title.equals(book.title) &&
+                description.equals(book.description) &&
+                genre.equals(book.genre) &&
+                price.equals(book.price) &&
+                publishYear.equals(book.publishYear);
+    }
 }
