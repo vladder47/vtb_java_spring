@@ -1,9 +1,7 @@
 package com.vtb.vladislav.spring.data.lesson8.homework.beans;
 
 import com.vtb.vladislav.spring.data.lesson8.homework.entities.Book;
-import com.vtb.vladislav.spring.data.lesson8.homework.entities.Order;
 import com.vtb.vladislav.spring.data.lesson8.homework.entities.OrderItem;
-import com.vtb.vladislav.spring.data.lesson8.homework.entities.User;
 import com.vtb.vladislav.spring.data.lesson8.homework.services.BookService;
 import com.vtb.vladislav.spring.data.lesson8.homework.services.OrderItemService;
 import com.vtb.vladislav.spring.data.lesson8.homework.services.OrderService;
@@ -12,7 +10,6 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -55,14 +52,12 @@ public class Cart {
     }
 
     private OrderItem searchOrderItemByBook(Book book) {
-        OrderItem result = null;
         for (OrderItem orderItem : orderItems) {
             if (orderItem.getBook().equals(book)) {
-                result = orderItem;
-                break;
+                return orderItem;
             }
         }
-        return result;
+        return null;
     }
 
     public void deleteBookFromCart(int index) {
@@ -80,19 +75,5 @@ public class Cart {
     public void clearCart() {
         orderItems.clear();
         totalPrice = new BigDecimal("0.0");
-    }
-
-    public Order processOrder(String username) {
-        User user = userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("Пользователь %s не найден", username)));
-        Order order = new Order();
-        order.setUser(user);
-        order.setPrice(totalPrice);
-        order = orderService.saveOrUpdateOrder(order);
-        for (OrderItem orderItem : orderItems) {
-            orderItem.setOrder(order);
-            orderItemService.saveOrUpdateOrderItem(orderItem);
-        }
-        clearCart();
-        return order;
     }
 }

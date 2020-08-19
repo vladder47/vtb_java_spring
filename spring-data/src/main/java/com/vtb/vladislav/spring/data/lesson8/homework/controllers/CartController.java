@@ -1,7 +1,6 @@
 package com.vtb.vladislav.spring.data.lesson8.homework.controllers;
 
 import com.vtb.vladislav.spring.data.lesson8.homework.beans.Cart;
-import com.vtb.vladislav.spring.data.lesson8.homework.entities.Order;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.security.Principal;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/cart")
@@ -25,9 +26,9 @@ public class CartController {
     }
 
     @GetMapping("/{id}")
-    public String addBookToCart(@PathVariable Long id) {
+    public void addBookToCart(Model model, @PathVariable Long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
         cart.addBookToCart(id);
-        return "redirect:/books";
+        response.sendRedirect(request.getHeader("referer"));
     }
 
     @GetMapping("/delete/{index}")
@@ -40,13 +41,5 @@ public class CartController {
     public String clearCart() {
         cart.clearCart();
         return "redirect:/cart";
-    }
-
-    @GetMapping("/process")
-    public String processOrder(Model model, Principal principal) {
-        Order order = cart.processOrder(principal.getName());
-        cart.clearCart();
-        model.addAttribute("order", order);
-        return "order_page";
     }
 }
