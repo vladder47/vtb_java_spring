@@ -78,13 +78,14 @@
     </table>
 </div>
 
+<div>{{$scope.pages}}</div>
 <nav aria-label="Book navigation">
     <ul class="pagination" ng-if="page.totalPages > 1">
         <li class="page-item" ng-class="{disabled:page.first}">
             <a class="page-link" ng-click="findBooks(1)">Первая</a></li>
         <li class="page-item" ng-class="{disabled:page.first}">
             <a class="page-link" ng-click="findBooks(page.pageable.pageNumber)">Предыдущая</a></li>
-        <li class="page-item" ng-repeat="p in range" ng-class="{active:page.pageable.pageNumber === p - 1}">
+        <li class="page-item" ng-repeat="p in pages" ng-class="{active:page.pageable.pageNumber === p - 1}">
             <a class="page-link" ng-click="findBooks(p)">{{p}}</a></li>
         <li class="page-item" ng-class="{disabled:page.last}">
             <a class="page-link" ng-click="findBooks(page.pageable.pageNumber + 2)">Следующая</a></li>

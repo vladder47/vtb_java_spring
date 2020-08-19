@@ -20,14 +20,10 @@ app.controller('booksController', function ($scope, $http, $routeParams) {
         }
         $http.get(contextPath + '/api/v1/books?page=' + pageNumber + getUrl(params))
             .then(function (response) {
-                var range = [];
-                for (var i=0; i < response.data.book.totalPages; i++) {
-                    range.push(i + 1);
-                }
                 $scope.BooksList = response.data.book.content;
                 $scope.genres = response.data.genres;
                 $scope.page = response.data.book;
-                $scope.range = range;
+                $scope.pages = getPager(response.data.book.totalPages, pageNumber);
             });
     };
 
@@ -56,15 +52,11 @@ app.controller('booksController', function ($scope, $http, $routeParams) {
         return result;
     }
 
-    // пока не использую эту функцию при формировании номеров страниц
-    function GetPager(totalItems, currentPage, pageSize) {
+    // google's pagination logic (в строке навигации одновременно отображаются не более 10 страниц)
+    function getPager(totalPages, currentPage) {
         currentPage = currentPage || 1;
 
-        pageSize = pageSize || 10;
-
-        var totalPages = Math.ceil(totalItems / pageSize);
-
-        var startPage, endPage;
+        let startPage, endPage;
         if (totalPages <= 10) {
             startPage = 1;
             endPage = totalPages;
@@ -80,22 +72,13 @@ app.controller('booksController', function ($scope, $http, $routeParams) {
                 endPage = currentPage + 4;
             }
         }
-        var startIndex = (currentPage - 1) * pageSize;
-        var endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
 
-        var pages = _.range(startPage, endPage + 1);
+        let pages = [];
+        for (let i = startPage; i < endPage + 1; i++) {
+            pages.push(i);
+        }
 
-        return {
-            totalItems: totalItems,
-            currentPage: currentPage,
-            pageSize: pageSize,
-            totalPages: totalPages,
-            startPage: startPage,
-            endPage: endPage,
-            startIndex: startIndex,
-            endIndex: endIndex,
-            pages: pages
-        };
+        return pages;
     }
 
     fillTable($routeParams.page, $scope.form);
