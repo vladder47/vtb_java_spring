@@ -16,19 +16,24 @@ public class BookFilter {
         spec = Specification.where(null);
         StringBuilder parameters = new StringBuilder("&");
         if (params.containsKey("genre") && params.get("genre") != null) {
+            Specification<Book> genreSpec = null;
             for (String genre : params.get("genre")) {
-                spec = spec.or(BookSpecifications.genreEqual(genre));
+                if (genreSpec == null) {
+                    genreSpec = BookSpecifications.genreEqual(genre);
+                } else {
+                    genreSpec = genreSpec.or(BookSpecifications.genreEqual(genre));
+                }
+//                spec = spec.or(BookSpecifications.genreEqual(genre));
                 parameters.append("genre=").append(genre).append('&');
             }
+            spec = spec.and(genreSpec);
         }
         if (params.containsKey("minPrice") && !params.get("minPrice").get(0).equals("")) {
-            System.out.println("я тут");
             String minPrice = params.get("minPrice").get(0);
             spec = spec.and(BookSpecifications.priceGreaterOrEqualsThan(Integer.parseInt(minPrice)));
             parameters.append("minPrice=").append(minPrice).append('&');
         }
         if (params.containsKey("maxPrice") && !params.get("maxPrice").get(0).equals("")) {
-            System.out.println("maxPrice я тут");
             String maxPrice = params.get("maxPrice").get(0);
             spec = spec.and(BookSpecifications.priceLesserOrEqualsThan(Integer.parseInt(maxPrice)));
             parameters.append("maxPrice=").append(maxPrice).append('&');

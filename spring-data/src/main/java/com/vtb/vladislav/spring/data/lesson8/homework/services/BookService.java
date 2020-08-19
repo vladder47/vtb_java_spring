@@ -35,4 +35,20 @@ public class BookService {
     public Book findBookById(Long id) {
         return bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Книга с таким id отсутствует в базе данных"));
     }
+
+    public Book saveOrUpdate(Book book) {
+        return bookRepository.save(book);
+    }
+
+    public boolean existsById(Long id) {
+        return bookRepository.existsById(id);
+    }
+
+    public void deleteById(Long id) {
+        bookRepository.deleteById(id);
+    }
+
+    public void deleteAll() {
+        bookRepository.deleteAll();
+    }
 }
