@@ -10,6 +10,11 @@ app.config(function ($routeProvider) {
             templateUrl: 'all_books.html',
             controller: 'booksController'
         })
+        .when('/stat', {
+            templateUrl: 'stat_page.html',
+            controller: 'statController'
+        })
+
 });
 
 app.controller('booksController', function ($scope, $http, $routeParams) {
@@ -82,5 +87,20 @@ app.controller('booksController', function ($scope, $http, $routeParams) {
     }
 
     fillTable($routeParams.page, $scope.form);
+});
+
+app.controller('statController', function ($scope, $http) {
+    fillTable = function () {
+        $http.get(contextPath + '/api/v1/stat')
+            .then(function (response) {
+                $scope.stat = response.data;
+            });
+    };
+
+    $scope.equals = function(object, value) {
+        return angular.equals(object, value);
+    }
+
+    fillTable();
 });
 

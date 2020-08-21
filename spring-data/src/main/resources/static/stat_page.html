@@ -1,0 +1,36 @@
+<!doctype html>
+<html ng-app="app" ng-controller=" statController">
+<head>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+    <script type="text/javascript" src="logic.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<h1>Статистика вызова методов у сервисов</h1>
+
+<div ng-show="equals({}, stat)">Ни одного метода не было вызвано</div>
+<div ng-hide="equals({}, stat)">
+    <div ng-repeat="(name, method) in stat">
+        <h3>{{name}}</h3>
+        <table class="table table-hover" cellpadding="0" cellspacing="0">
+            <tr>
+                <td>Название метода</td>
+                <td>Кол-во вызовов</td>
+            </tr>
+            <tbody>
+            <tr ng-repeat="(name, count) in method">
+                <td>{{name}}</td>
+                <td>{{count}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
