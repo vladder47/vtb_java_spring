@@ -50,6 +50,11 @@ public class BookRestController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+//    @GetMapping
+//    public List<Book> getAllBooks() {
+//        return bookService.findAllBooks();
+//    }
+
     @GetMapping("/{id}")
     public Book getBookById(@PathVariable Long id) {
         return bookService.findBookById(id);

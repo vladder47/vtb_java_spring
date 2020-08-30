@@ -1,5 +1,6 @@
 package com.vtb.vladislav.spring.data.lesson8.homework.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.util.Collection;
 @Table(name = "books")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,8 +35,8 @@ public class Book {
     @Column(name = "publish_year")
     private Integer publishYear;
 
-//    @OneToMany(mappedBy = "book")
-//    private Collection<OrderItem> orderItems;
+    @OneToMany(mappedBy = "book")
+    private Collection<OrderItem> orderItems;
 
     @Override
     public boolean equals(Object o) {
