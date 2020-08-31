@@ -1,6 +1,7 @@
 package com.vtb.vladislav.spring.data.lesson8.homework;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vtb.vladislav.spring.data.lesson8.homework.configs.SecurityConfig;
 import com.vtb.vladislav.spring.data.lesson8.homework.controllers.rest.BookRestController;
 import com.vtb.vladislav.spring.data.lesson8.homework.entities.Book;
 import com.vtb.vladislav.spring.data.lesson8.homework.entities.Genre;
@@ -9,6 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -28,6 +32,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @WebMvcTest(BookRestController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class BookRestControllerTests {
     @Autowired
     private MockMvc mockMvc;
@@ -74,7 +79,7 @@ public class BookRestControllerTests {
     // а List<Book> (метод с ResponseEntity тестируется в интеграционном тесте)
     @Test
     public void getAllBooksTest() throws Exception {
-        mockMvc.perform(get("/api/v1/books"))
+        mockMvc.perform(get("/api/v1/books/test"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(3)))
@@ -108,7 +113,6 @@ public class BookRestControllerTests {
         verify(bookService, times(1)).findBookById(1L);
     }
 
-    // не смог подключить JacksonTester для этого теста, т.к. ругалось на то, что нет соответствующего бина
     @Test
     public void createNewBookTest() throws Exception {
         mockMvc.perform(post("/api/v1/books")
