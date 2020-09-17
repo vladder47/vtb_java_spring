@@ -1,0 +1,19 @@
+#### Запрос для получения книги по id ####
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+xmlns:b="http://vtb.com/vladislav/spring/web/services/lesson12/homework">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <b:getBookByIdRequest>
+            <b:id>2</b:id>
+        </b:getBookByIdRequest>
+    </soapenv:Body>
+</soapenv:Envelope>
+
+#### Запрос для получения всех книг ####
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+xmlns:b="http://vtb.com/vladislav/spring/web/services/lesson12/homework">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <b:getAllBooksRequest/>
+    </soapenv:Body>
+</soapenv:Envelope>
