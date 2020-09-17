@@ -3,9 +3,6 @@ package com.vtb.vladislav.spring.data.lesson8.homework.beans;
 import com.vtb.vladislav.spring.data.lesson8.homework.entities.Book;
 import com.vtb.vladislav.spring.data.lesson8.homework.entities.OrderItem;
 import com.vtb.vladislav.spring.data.lesson8.homework.services.BookService;
-import com.vtb.vladislav.spring.data.lesson8.homework.services.OrderItemService;
-import com.vtb.vladislav.spring.data.lesson8.homework.services.OrderService;
-import com.vtb.vladislav.spring.data.lesson8.homework.services.UserService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -24,16 +21,10 @@ public class Cart {
     private List<OrderItem> orderItems;
     private BigDecimal totalPrice;
     private BookService bookService;
-    private UserService userService;
-    private OrderService orderService;
-    private OrderItemService orderItemService;
 
     @Autowired
-    public Cart(BookService bookService, UserService userService, OrderService orderService, OrderItemService orderItemService) {
+    public Cart(BookService bookService) {
         this.bookService = bookService;
-        this.userService = userService;
-        this.orderService = orderService;
-        this.orderItemService = orderItemService;
         this.orderItems = new ArrayList<>();
         this.totalPrice = new BigDecimal("0.0");
     }
@@ -74,6 +65,6 @@ public class Cart {
 
     public void clearCart() {
         orderItems.clear();
-        totalPrice = new BigDecimal("0.0");
+        totalPrice = new BigDecimal("0.00");
     }
 }

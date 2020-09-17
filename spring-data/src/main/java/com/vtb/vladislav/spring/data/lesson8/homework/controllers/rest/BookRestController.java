@@ -20,14 +20,6 @@ import java.util.*;
 public class BookRestController {
     private BookService bookService;
 
-//    @GetMapping
-//    public Page<Book> getAllBooks(@RequestParam(value = "page", defaultValue = "1") Integer page,
-//                                  @RequestParam(required = false) MultiValueMap<String, String> params) {
-//        BookFilter bookFilter = new BookFilter(params);
-//        Page<Book> pageBook = bookService.findAllBooks(bookFilter.getSpec(), page - 1, 5);
-//        return pageBook;
-//    }
-
     @GetMapping
     public ResponseEntity<Map<String, Object>> getAllBooks(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                            @RequestParam(required = false) MultiValueMap<String, String> params) {
@@ -44,10 +36,15 @@ public class BookRestController {
 
         Map<String, Object> response = new HashMap<>();
         response.put("book", pageBook);
-//        response.put("genres", Genre.values());
         response.put("genres", genres);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    // метод для юнит-теста
+    @GetMapping("/test")
+    public List<Book> getAllBooks() {
+        return bookService.findAllBooks();
     }
 
     @GetMapping("/{id}")
