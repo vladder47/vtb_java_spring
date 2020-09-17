@@ -34,6 +34,7 @@ public class OrderService {
         Order order = new Order();
         order.setUser(user);
         order.setPrice(cart.getTotalPrice());
+        order.setOrderStatus(Order.OrderStatus.PROCESSING);
         order = saveOrUpdateOrder(order);
         for (OrderItem orderItem : cart.getOrderItems()) {
             orderItem.setOrder(order);

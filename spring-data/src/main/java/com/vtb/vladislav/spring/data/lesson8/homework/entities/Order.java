@@ -12,6 +12,17 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 public class Order {
+    public enum OrderStatus {
+        PROCESSING("В обработке"),
+        READY("Готово");
+
+        private final String statusName;
+
+        OrderStatus(String statusName) {
+            this.statusName = statusName;
+        }
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -23,6 +34,10 @@ public class Order {
 
     @Column(name = "price")
     private BigDecimal price;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private OrderStatus orderStatus;
 
     @OneToMany(mappedBy = "order")
     private Collection<OrderItem> orderItems;

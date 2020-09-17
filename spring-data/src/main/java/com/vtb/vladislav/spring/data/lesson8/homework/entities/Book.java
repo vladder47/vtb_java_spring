@@ -33,8 +33,8 @@ public class Book {
     @Column(name = "publish_year")
     private Integer publishYear;
 
-//    @OneToMany(mappedBy = "book")
-//    private Collection<OrderItem> orderItems;
+    @OneToMany(mappedBy = "book")
+    private Collection<OrderItem> orderItems;
 
     @Override
     public boolean equals(Object o) {
